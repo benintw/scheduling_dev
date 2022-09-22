@@ -1591,7 +1591,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         # End of writing to excel
     
     
-    st.markdown("### 3. Download Output")
+    # st.markdown("### 3. Download Output")
 
     # Add a placeholder
     latest_iteration = st.empty()

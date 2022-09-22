@@ -80,9 +80,13 @@ def main():
                     '',
                     (range(1,len(day_of_week))))
 
+                st.markdown("### 3. Download Output")
 
-                get_my_excel_timetable(mega_team, DAY, MONTH, YEAR)
+                if st.button("Run this app"):
+                    get_my_excel_timetable(mega_team, DAY, MONTH, YEAR)
                 
+                
+                                
                 
     elif password == "":
         st.write("Enter Password")
