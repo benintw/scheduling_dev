@@ -1,5 +1,6 @@
 '''
 Last modified: Tues Sep 20, 2022 @ 00:40
+Last modified: Mon. Sep 26, 2022 @ 22:05
 
 '''
 
@@ -346,8 +347,6 @@ def build_tao_spes_teams(tao_combined_df:pd.DataFrame):
 
     return tao1_df,tao2_df,tao3_df,tao4_df,tao5_df,specialForce_df
 
-
-
 def build_other_teams(combined_teams: pd.DataFrame) -> pd.DataFrame:
     '''把所有其他港務機場門境隊 從other_combined_df分開'''
     keelung_index = []
@@ -384,6 +383,8 @@ def build_other_teams(combined_teams: pd.DataFrame) -> pd.DataFrame:
             jingmen_df = combined_teams.iloc[:, jingmen_index[0]:jingmen_index[-1]+1]
 
     return keelung_df, songshang_df, taichung_df ,kaohsiungAirport_df, kaohsiungPort_df, jingmen_df
+
+
 
 def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
 
@@ -677,7 +678,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         gen_officer = df_officer.iloc[DAY][0]
         dep_officer = df_officer.iloc[DAY][1]
 
-        # 桃一隊 tao1_df
+
         tao1_df = tao1_df.replace("9-21","09-21")
         u = tao1_df.iloc
 
@@ -711,7 +712,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         cell_H10 = leaders[new_time_list[1]][-3:]
 
 
-        # 桃2隊 tao2_df
+
         tao2_df = tao2_df.replace("9-21","09-21")
         u = tao2_df.iloc
         cell_C11 = " " if len(u[DAY,:][0]) <= 2 else u[DAY,:][0].strip().split("-")[0]+ "\n|\n"+ u[DAY,:][0].strip().split("-")[1] # time 
@@ -744,7 +745,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         cell_G12 = leaders_col[new_time_list[1]] #u_[DAY,leaders_col[1]] # time
         cell_H12 = leaders[new_time_list[1]][-3:]
 
-        # 桃4隊 tao4_df
+
         tao4_df = tao4_df.replace("9-21","09-21")
         u = tao4_df.iloc
 
@@ -775,7 +776,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         cell_G14 = leaders_col[new_time_list[1]]
         cell_H14 = leaders[new_time_list[1]][-3:]
 
-        # 桃5隊 tao5_df
+
         u = tao5_df.iloc
 
         cell_C15 = " " if len(u[DAY,:][0]) <= 2 else u[DAY,:][0].strip().split("-")[0]+ "\n|\n"+ u[DAY,:][0].strip().split("-")[1] # time 
@@ -808,7 +809,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         cell_G16 = leaders_col[new_time_list[1]]
         cell_H16 = leaders[new_time_list[1]][-3:]
 
-        # 桃3隊 tao3_df
+
         u = tao3_df.iloc
 
         cell_C17 = " " if len(u[DAY,:][0]) <= 2 else u[DAY,:][0].strip().split("-")[0]+ "\n|\n"+ u[DAY,:][0].strip().split("-")[1] # time 
@@ -841,7 +842,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         cell_H20 =  leaders[new_time_list[3]][-3:]
 
 
-        # # 特殊勤務 specialForce_df
+
         u = specialForce_df.iloc
         cell_C21 = " " if len(u[DAY,:][0]) <= 2 else u[DAY,:][0].strip().split("-")[0]+ "\n|\n"+ u[DAY,:][0].strip().split("-")[1] # time 
         cell_D21 = " " if cell_C21 == " " else u[0,:][0][-3:]
@@ -869,8 +870,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         cell_H22 = leaders[new_time_list[1]][1:]
 
 
-        # '''外機港隊'''
-        # keelunng_df
+
         u = keelung_df.iloc
         cell_C25 = " " if len(u[DAY,:][0]) <= 2 else u[DAY,:][0].strip().split("-")[0]+ "\n|\n"+ u[DAY,:][0].strip().split("-")[1] # time 
         cell_D25 = " " if cell_C25 == " " else keelung_df.columns.tolist()[0][-3:]
@@ -900,7 +900,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         cell_H26 = leaders[new_time_list[1]][-3:]
 
 
-        # # songshang_df
+
         u = songshang_df.iloc
 
         cell_C28 = " " if len(u[DAY,:][0]) <= 2 else u[DAY,:][0].strip().split("-")[0]+ "\n|\n"+ u[DAY,:][0].strip().split("-")[1] # time 
@@ -926,7 +926,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         cell_H29 = leaders[new_time_list[1]][-3:]
 
 
-        # # taichung_df
+
         u = taichung_df.iloc
         cell_C30 = " " if len(u[DAY,:][0]) <= 2 else u[DAY,:][0].strip().split("-")[0]+ "\n|\n"+ u[DAY,:][0].strip().split("-")[1] # time 
         cell_D30 = " " if cell_C30 == " " else u[0,:][0][-3:]
@@ -949,7 +949,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         cell_G31 = leaders_col[new_time_list[1]]
         cell_H31 = leaders[new_time_list[1]][-3:]
 
-        # # kaohsiungAirport_df
+
         u = kaohsiungAirport_df.iloc
         cell_C32 = " " if len(u[DAY,:][0]) <= 2 else u[DAY,:][0].strip().split("-")[0]+ "\n|\n"+ u[DAY,:][0].strip().split("-")[1] # time 
         cell_D32 = " " if cell_C32 == " " else u[0,:][0][-3:]
@@ -972,7 +972,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         cell_G33 = leaders_col[new_time_list[1]]
         cell_H33 = leaders[new_time_list[1]][-3:]
 
-        # # kaohsiungPort_df
+
         u = kaohsiungPort_df.iloc
         cell_C34 = " " if len(u[DAY,:][0]) <= 2 else u[DAY,:][0].strip().split("-")[0]+ "\n|\n"+ u[DAY,:][0].strip().split("-")[1] # time 
         cell_D34 = " " if cell_C34 == " " else u[0,:][0][-3:]
@@ -1011,7 +1011,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
             cell_G35 = None
             cell_H35 = None
 
-        # # jingmen_df
+
         u = jingmen_df.iloc
         cell_C36 = " " if len(u[DAY,:][0]) <= 2 else u[DAY,:][0].strip().split("-")[0]+ "\n|\n"+ u[DAY,:][0].strip().split("-")[1] # time 
         cell_D36 = " " if cell_C36 == " " else u[0,:][0][-3:]
@@ -1591,7 +1591,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         # End of writing to excel
     
     
-    # st.markdown("### 3. Download Output")
+    st.markdown("### 3. Download Output")
 
     # Add a placeholder
     latest_iteration = st.empty()
@@ -1612,4 +1612,6 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
             file_name=excel_file_name,
             mime="application/vnd.ms-excel"
             )
+
+
 

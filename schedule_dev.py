@@ -1,6 +1,7 @@
 '''
 Last modified: Tues Sep 13, 2022 @ 21:11
 Last modified: Tues Sep 20, 2022 @ 00:11
+Last modified: Mon. Sep 26, 2022 @ 21:59
 
 '''
 
@@ -80,14 +81,10 @@ def main():
                     '',
                     (range(1,len(day_of_week))))
 
-                st.markdown("### 3. Download Output")
 
-                if st.button("Run this app"):
-                    get_my_excel_timetable(mega_team, DAY, MONTH, YEAR)
+                get_my_excel_timetable(mega_team, DAY, MONTH, YEAR)
                 
-                
-                                
-                
+
     elif password == "":
         st.write("Enter Password")
 
