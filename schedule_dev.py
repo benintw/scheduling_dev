@@ -2,6 +2,7 @@
 Last modified: Tues Sep 13, 2022 @ 21:11
 Last modified: Tues Sep 20, 2022 @ 00:11
 Last modified: Mon. Sep 26, 2022 @ 21:59
+Last modified: Sat. Oct 1 , 2022 @ 15:06
 
 '''
 
@@ -14,6 +15,8 @@ import pandas as pd
 import xlsxwriter
 from myFunctions import *
 
+# user_pw = "worldpeace"
+# dev_pw = "benchen"
 
 
 def main():
@@ -22,7 +25,9 @@ def main():
     st.write("-"*100)
     password = st.sidebar.text_input("Enter Password", type='password')
 
-    if password == "worldpeace":
+    if password == st.secrets[user_pw]:
+        st.write("ok")
+    if password == 'worldpeace':
 
         st.markdown("### 1. Upload Files")
 
