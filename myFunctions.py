@@ -23,28 +23,28 @@ def get_different_teams_to_list(uploadedFiles:list) -> dict:
         for file in uploadedFiles:
             if file.name.split(".")[-1] in ["docx","xlsx","xls"]:
 
-                if file.name.endswith(".docx") and "桃園機場" in file.name:
+                if file.name.endswith(".docx") and st.secrets["fruit1"] in file.name:
                     taoyuan_teams_docx_list.append(file)
-                elif file.name.endswith(".docx") and "特殊勤務" in file.name:
+                elif file.name.endswith(".docx") and st.secrets["fruit2"] in file.name:
                     taoyuan_teams_docx_list.append(file)        
-                elif "值勤官" in file.name:
+                elif st.secrets["fruit3"] in file.name:
                     management_teams_excel_list.append(file)
-                elif "輪值表" in file.name:
+                elif st.secrets["fruit4"] in file.name:
                     if file.name.endswith(".docx") and file not in taoyuan_teams_docx_list :
                         other_teams_docx_list.append(file)
     except:
         raise ValueError("檔案格式有誤")
     
     mega_team = {
-    "management_teams":management_teams_excel_list,
-    "taoyuan_teams":taoyuan_teams_docx_list,
-    "other_teams":other_teams_docx_list
+    st.secrets["fruit5"]:management_teams_excel_list,
+    st.secrets["fruit6"]:taoyuan_teams_docx_list,
+    st.secrets["fruit7"]:other_teams_docx_list
     }
     
     return mega_team
 
 def replace_with_names_xlsx(list_number:str, list_officer:str) -> list:
-    '''Replace all indices with its corresponding officer names'''
+    '''Replace all indices with its corresponding names'''
     for i in range(len(list_number)):
         if list_number[i] == 0:
             list_number[i] = list_officer[0]
