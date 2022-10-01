@@ -66,7 +66,7 @@ def replace_with_names_xlsx(list_number:str, list_officer:str) -> list:
     return list_number
 
 def replace_with_names_xls(list_number:str, list_officer:str) -> list:
-    '''Replace all indices with its corresponding officer names for xls files'''
+    '''Replace all indices with its corresponding names for xls files'''
     for i in range(len(list_number)):
         if list_number[i] == 0:
             list_number[i] = list_officer[0]
@@ -132,9 +132,9 @@ def getDataFromExcel(teams: list) -> pd.DataFrame:
     df_dep_officer = pd.DataFrame(dep_officer_list)
     df_combined = pd.concat([df_general_officer,df_dep_officer], axis=1)
 
-    df_combined.columns = ["總值勤官", "值勤官"]
+    df_combined.columns = [st.secrets["fruit8"], st.secrets["fruit9"]]
     # add this to row[0]
-    df_0 = pd.DataFrame("姓名",columns = ["總值勤官", "值勤官"], index=[0])
+    df_0 = pd.DataFrame("姓名",columns = [st.secrets["fruit8"], st.secrets["fruit9"]], index=[0])
     df_combined = pd.concat([df_0,df_combined], axis=0).reset_index(drop=True)
 
     return df_combined
@@ -185,7 +185,7 @@ def get_DataFrame(team:str) -> pd.DataFrame:
     return df_reorganized
 
 def get_DataFrame_SpecialForce(team:str) -> pd.DataFrame:
-    '''跟get_DataFrame一樣,但是特殊勤務隊的一號分隊長名稱怪異'''
+    st.secrets["desc2"]
     document = Document(team)
     table = document.tables[0]
     data = [[cell.text for cell in row.cells] for row in table.rows]
@@ -204,7 +204,7 @@ def get_DataFrame_SpecialForce(team:str) -> pd.DataFrame:
     for i in range(NameIndexCol,len(titles)+2):
         titles[i] = (titles[i].split("\n")[0]).replace(" ","")
 
-    # "分隊長: 一洪金城代理 "
+    st.secrets["desc3"]
     header = df.iloc[NameIndexRow,NameIndexCol:].copy()
     header[2] = prefix + header[2][-3:] 
     header[3] = prefix + header[3][-2:]
@@ -220,7 +220,7 @@ def get_DataFrame_SpecialForce(team:str) -> pd.DataFrame:
     return df_reorganized
 
 def get_DataFrame_KaoHsiungAirport(team:str) -> pd.DataFrame:
-    '''跟get_DataFrame一樣,但是高雄機場隊有多一層隱藏column'''
+    st.secrets["desc4"]
     document = Document(team)
     table = document.tables[0]
     data = [[cell.text for cell in row.cells] for row in table.rows]
@@ -274,12 +274,12 @@ def get_day_of_week(excelpath:str) -> list:
 
 
 def get_taoTeams(tao_teams:list) -> pd.DataFrame:
-    '''把桃機隊+特勤隊放到一個df, 並做time formatting'''
+    st.secrets["desc5"]
     TaoCombined_df = pd.DataFrame()
 
     for tao_team in tao_teams:
         
-        if "特殊勤務" in tao_team.name:
+        if st.secrets["fruit2"] in tao_team.name:
             df_taoyuan = get_DataFrame_SpecialForce(tao_team)
             TaoCombined_df = pd.concat([TaoCombined_df,df_taoyuan], axis=1) 
 
@@ -293,11 +293,11 @@ def get_taoTeams(tao_teams:list) -> pd.DataFrame:
     return TaoCombined_df
 
 def get_otherTeams(other_teams:list) -> pd.DataFrame:
-    '''把其他港隊機場隊放到一個df, 並做time formatting'''
+    st.secrets["desc6"]
     OtherCombined_df = pd.DataFrame()
 
     for other_team in other_teams:
-        if "高雄機場" in other_team.name:
+        if st.secrets["apple1"] in other_team.name:
             df_other_team = get_DataFrame_KaoHsiungAirport(other_team)
             OtherCombined_df = pd.concat([OtherCombined_df,df_other_team], axis=1)
         else:
@@ -310,8 +310,7 @@ def get_otherTeams(other_teams:list) -> pd.DataFrame:
     return OtherCombined_df
 
 def build_tao_spes_teams(tao_combined_df:pd.DataFrame):
-    '''把tao1~tao5, specialForce 從tao_combined_df分開'''
-    # 目前流程從把 各別list -> 統一 dict -> 統一df (time formatting)完後 ->  個別df 
+    st.secrets["desc7"]
 
     tao1_index = []
     tao2_index = []
@@ -349,7 +348,7 @@ def build_tao_spes_teams(tao_combined_df:pd.DataFrame):
     return tao1_df,tao2_df,tao3_df,tao4_df,tao5_df,specialForce_df
 
 def build_other_teams(combined_teams: pd.DataFrame) -> pd.DataFrame:
-    '''把所有其他港務機場門境隊 從other_combined_df分開'''
+    st.secrets["desc8"]
     keelung_index = []
     songshang_index = []
     taichung_index = []
@@ -359,27 +358,27 @@ def build_other_teams(combined_teams: pd.DataFrame) -> pd.DataFrame:
 
     for column_idx in range(len(combined_teams.columns.values)):
 
-        if "基隆" in combined_teams.columns.values[column_idx]:
+        if st.secrets["orange1"] in combined_teams.columns.values[column_idx]:
             keelung_index.append(column_idx)
             keelung_df = combined_teams.iloc[:, keelung_index[0]:keelung_index[-1]+1]
 
-        elif "松山" in combined_teams.columns.values[column_idx]:
+        elif st.secrets["orange2"] in combined_teams.columns.values[column_idx]:
             songshang_index.append(column_idx)
             songshang_df = combined_teams.iloc[:, songshang_index[0]:songshang_index[-1]+1]
 
-        elif "臺中" in combined_teams.columns.values[column_idx]:
+        elif st.secrets["orange3"] in combined_teams.columns.values[column_idx]:
             taichung_index.append(column_idx)
             taichung_df = combined_teams.iloc[:, taichung_index[0]:taichung_index[-1]+1]
 
-        elif "高雄機場" in combined_teams.columns.values[column_idx]:
+        elif st.secrets["apple1"] in combined_teams.columns.values[column_idx]:
             kaohsiungAirport_index.append(column_idx)
             kaohsiungAirport_df = combined_teams.iloc[:, kaohsiungAirport_index[0]:kaohsiungAirport_index[-1]+1]
 
-        elif "高雄港隊" in combined_teams.columns.values[column_idx]:
+        elif st.secrets["orange4"] in combined_teams.columns.values[column_idx]:
             kaohsiungPort_index.append(column_idx)
             kaohsiungPort_df = combined_teams.iloc[:, kaohsiungPort_index[0]:kaohsiungPort_index[-1]+1]
 
-        elif "金門" in combined_teams.columns.values[column_idx]:
+        elif st.secrets["orange5"] in combined_teams.columns.values[column_idx]:
             jingmen_index.append(column_idx)
             jingmen_df = combined_teams.iloc[:, jingmen_index[0]:jingmen_index[-1]+1]
 
@@ -389,17 +388,17 @@ def build_other_teams(combined_teams: pd.DataFrame) -> pd.DataFrame:
 
 def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
 
-    day_of_week = get_day_of_week(mega_team["management_teams"])
-    df_officer = getDataFromExcel(mega_team["management_teams"])
+    day_of_week = get_day_of_week(mega_team[st.secrets["fruit5"]])
+    df_officer = getDataFromExcel(mega_team[st.secrets["fruit5"]])
 
     # '''TaoYuanCombined_df'''
-    TaoYuanCombined_df = get_taoTeams(mega_team["taoyuan_teams"])
+    TaoYuanCombined_df = get_taoTeams(mega_team[st.secrets["fruit6"]])
 
     tao1_df,tao2_df,tao3_df,tao4_df,tao5_df,specialForce_df = \
         build_tao_spes_teams(TaoYuanCombined_df)
 
     # '''OtherCombined_df'''
-    OtherCombined_df = get_otherTeams(mega_team["other_teams"])
+    OtherCombined_df = get_otherTeams(mega_team[st.secrets["fruit6"]])
 
     keelung_df, songshang_df, taichung_df ,kaohsiungAirport_df, kaohsiungPort_df, \
         jingmen_df = build_other_teams(OtherCombined_df)
@@ -592,54 +591,54 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         def table_construction():
             #'''建立固定不變的cells'''
             worksheet.merge_range(TitleWholeRow, f"中華民國 {YEAR} 年 {MONTH} 月 {DAY} 日 ( {day_of_week[DAY]} )", TitleRow_format)
-            worksheet.merge_range(CustomWholeTeamRow, "國境事務大隊協管室值勤表", CustomTeamRow_format)
+            worksheet.merge_range(CustomWholeTeamRow, st.secrets["item1"], CustomTeamRow_format)
             #'''===================='''
-            worksheet.write(first_col+str(custome_row+1), '總值勤官', workbook.add_format({'bold':True, "font_size":14,
+            worksheet.write(first_col+str(custome_row+1), st.secrets["fruit8"], workbook.add_format({'bold':True, "font_size":14,
                                                 "align":"center","valign":"vcenter","top":5,"left":5,"right":2,"bottom":2}))
-            worksheet.write(first_col+str(custome_row+2), '值勤官', workbook.add_format({'bold':True, "font_size":14,
+            worksheet.write(first_col+str(custome_row+2), st.secrets["fruit9"], workbook.add_format({'bold':True, "font_size":14,
                                                 "align":"center","valign":"vcenter","top":2,"left":5,"right":2,"bottom":2}))
-            worksheet.write(first_col+str(custome_row+3), '值勤員', workbook.add_format({'bold':True, "font_size":14,
+            worksheet.write(first_col+str(custome_row+3), st.secrets["item2"], workbook.add_format({'bold':True, "font_size":14,
                                                 "align":"center","valign":"vcenter","top":2,"left":5,"right":2,"bottom":5}))
             worksheet.merge_range("C6:E6", "",workbook.add_format({'bold':False, "font_size":14,
                                                 "align":"center","valign":"vcenter","top":2,"left":2,"right":2,"bottom":2})) #
-            worksheet.merge_range("F6:G6", "監控人員",workbook.add_format({'bold':True, "font_size":14,
+            worksheet.merge_range("F6:G6",  st.secrets["item3"],workbook.add_format({'bold':True, "font_size":14,
                                                 "align":"center","valign":"vcenter","top":2,"left":2,"right":2,"bottom":5})) #
             worksheet.write(custome_row+2, LAST_COLUMNS-1, " ",workbook.add_format({'bold':False, "font_size":14,
                                                 "align":"center","valign":"vcenter","top":2,"left":2,"right":2,"bottom":5})) 
             worksheet.write(custome_row+2, LAST_COLUMNS, " ",workbook.add_format({'bold':False, "font_size":14,
                                                 "align":"center","valign":"vcenter","top":2,"left":2,"right":5,"bottom":2}))
             #'''===================='''
-            worksheet.merge_range(TaoYuanWholeRow, '桃園機場幹部出勤狀況表', TaoYuanRow_AirportPortRow_format) 
+            worksheet.merge_range(TaoYuanWholeRow, st.secrets['item4'], TaoYuanRow_AirportPortRow_format) 
             #'''===================='''
-            worksheet.write(first_col+str(taoyuan_row+1), "隊別 / 職稱", subHeader_bold)
-            worksheet.merge_range("C8:D8", "隊長", subHeader_bold) # merge
-            worksheet.merge_range("E8:F8", "副隊長", subHeader_bold) # merge
-            worksheet.merge_range("G8:H8", "分隊長", subHeader_bold) # merge
+            worksheet.write(first_col+str(taoyuan_row+1), st.secrets["item5"], subHeader_bold)
+            worksheet.merge_range("C8:D8", st.secrets["item6"], subHeader_bold) # merge
+            worksheet.merge_range("E8:F8", st.secrets["item7"], subHeader_bold) # merge
+            worksheet.merge_range("G8:H8", st.secrets["item8"], subHeader_bold) # merge
             worksheet.write(taoyuan_row,FIRST_COL+7, "備註", subHeader_bold) 
 
             taoyuan_airport_teams = [
-                "桃機一隊", "桃機二隊","桃機四隊", "桃機五隊", "桃機三隊", "特殊勤務隊"
+                st.secrets["joy1"],st.secrets["joy2"],st.secrets["joy3"], st.secrets["joy4"], st.secrets["joy5"], st.secrets["joy6"]
             ]
 
             for i in range(0,2*len(taoyuan_airport_teams),2):
                 # i = 0,2,4,6,8,10
                 j = int(i/2)
                 # j = 0,1,2,3,4,5
-                if taoyuan_airport_teams[j] not in ["桃機三隊", "特殊勤務隊"]:
+                if taoyuan_airport_teams[j] not in [st.secrets["joy5"], st.secrets["joy6"]]:
                     worksheet.merge_range(first_col+f"{i+9}"+":"+first_col+f"{i+10}",taoyuan_airport_teams[j],subHeader_bold)
-                elif taoyuan_airport_teams[j] in ["桃機三隊"]:
+                elif taoyuan_airport_teams[j] in [st.secrets["joy5"]]:
                     worksheet.merge_range(first_col+f"{i+9}"+":"+first_col+f"{i+12}",taoyuan_airport_teams[j],subHeader_bold)
-                elif taoyuan_airport_teams[j] in ["特殊勤務隊"]:
+                elif taoyuan_airport_teams[j] in [st.secrets["joy6"]]:
                     worksheet.merge_range(first_col+f"{i+11}"+":"+first_col+f"{i+13}",taoyuan_airport_teams[j],subHeader_bold)
                 else:
                     raise ValueError("Something went wrong")
 
 
             #'''===================='''
-            worksheet.merge_range(AirportPortWholeRow, "外機港隊幹部出勤狀況表", TaoYuanRow_AirportPortRow_format) # merge, fontsize, white font, red background, border
+            worksheet.merge_range(AirportPortWholeRow, st.secrets["bb1"], TaoYuanRow_AirportPortRow_format) # merge, fontsize, white font, red background, border
             #'''===================='''
             other_port_teams = [
-                "基隆港隊", "松山機場隊","臺中港隊", "高雄機場隊", "高雄港隊", "金門國境隊"
+                st.secrets["pp1"], st.secrets["pp2"],st.secrets["pp3"], st.secrets["pp4"], st.secrets["pp5"], st.secrets["pp6"]
             ]
 
             worksheet.merge_range(first_col+f'{airportport_row+1}'+":"+first_col+f"{airportport_row+3}",other_port_teams[0],subHeader_bold)
@@ -1080,16 +1079,16 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
                                                     "bg_color":"#CFAFE7","font_size":10,
                                                     "border":THICK})
 
-        #'''===================== 協管室值勤 ===================='''
+
         worksheet.merge_range("C4:I4", gen_officer,workbook.add_format({"font_size":16, "align":"center",
                                                 "valign":"vcenter","left":2,"right":5,"bottom":2,"top":5}))
         worksheet.merge_range("C5:I5", dep_officer,text_format_center_officers)
 
 
-        #'''===================== 桃園機場幹部 ===================='''
+
         TIME_THRESHOLD = 11
 
-        # 桃一隊 tao1_df
+        # t1
         try:
             if int(cell_C9[:2]) <= TIME_THRESHOLD:
                 worksheet.merge_range("C9:C10",cell_C9, captains_time_format_morning) # time 
@@ -1107,7 +1106,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         except:
             worksheet.merge_range("E9:E10",cell_E9, text_format_10) # time
 
-        # 桃一隊 leaders
+        # t1 leaders
         if int(cell_G9[:2]) <= TIME_THRESHOLD:
             worksheet.write("G9", cell_G9, leaders_time_format_morning) # time 
         else:
@@ -1129,7 +1128,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         worksheet.write("H9", cell_H9,text_format)
         worksheet.write("H10", cell_H10, text_format)
 
-        # 桃2隊 tao2_df
+        # t2 tao2_df
         try:
             if int(cell_C11[:2]) <= TIME_THRESHOLD:
                 worksheet.merge_range("C11:C12",cell_C11, captains_time_format_morning) # time 
@@ -1169,7 +1168,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         worksheet.write("H11", cell_H11,text_format)
         worksheet.write("H12", cell_H12, text_format)
 
-        # 桃4隊 tao4_df
+        # t4 tao4_df
         try:
             if int(cell_C13[:2]) <= TIME_THRESHOLD:
                 worksheet.merge_range("C13:C14",cell_C13, captains_time_format_morning) # time 
@@ -1209,7 +1208,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         worksheet.write("H13", cell_H13,text_format)
         worksheet.write("H14", cell_H14, text_format)
 
-        # 桃5隊 tao5_df
+        # t5 tao5_df
         try:
             if int(cell_C15[:2]) <= TIME_THRESHOLD:
                 worksheet.merge_range("C15:C16",cell_C15, captains_time_format_morning) # time 
@@ -1249,7 +1248,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         worksheet.write("H16", cell_H16, text_format)
 
 
-        # 桃3隊 tao3_df
+        # t3 tao3_df
         try:
             if int(cell_C17[:2]) <= TIME_THRESHOLD:
                 worksheet.merge_range("C17:C20",cell_C17, captains_time_format_morning) # time 
@@ -1298,7 +1297,7 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
         worksheet.write("H19", cell_H19, text_format)
         worksheet.write("H20", cell_H20, text_format)
 
-        # 特殊勤務 specialForce_df
+        #  specialForce_df
         try:
             if int(cell_C21[:2]) <= TIME_THRESHOLD:
                 worksheet.merge_range("C21:C23",cell_C21, captains_time_format_morning) # time 
@@ -1560,8 +1559,8 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
                 else:
                     worksheet.merge_range("G36:G37", cell_G36, leaders_time_format_not_morning)
                 
-                if cell_H36 == "長王愷":
-                    worksheet.merge_range("H36:H37", "王愷",text_format)
+                if cell_H36 == st.secrets["n1"]:
+                    worksheet.merge_range("H36:H37", st.secrets['n2'],text_format)
                 else:
                     worksheet.merge_range("H36:H37", cell_H36,text_format)
             else:
@@ -1574,13 +1573,13 @@ def get_my_excel_timetable(mega_team:dict, DAY:int,MONTH:str,YEAR:str):
                 else:
                     worksheet.write("G37", cell_G37, leaders_time_format_not_morning) # time 
 
-                if cell_H36 == "長王愷":
-                    worksheet.write("H36", "王愷",text_format)
+                if cell_H36 == st.secrets["n1"]:
+                    worksheet.write("H36", st.secrets['n2'],text_format)
                 else:
                     worksheet.write("H36", cell_H36,text_format)
 
-                if cell_H37 == "長王愷":
-                    worksheet.write("H37", "王愷",text_format)
+                if cell_H37 == st.secrets["n1"]:
+                    worksheet.write("H37", st.secrets['n2'],text_format)
                 else:
                     worksheet.write("H37", cell_H37, text_format)
 
