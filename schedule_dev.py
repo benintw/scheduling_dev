@@ -23,9 +23,8 @@ def main():
     st.write("-"*100)
     password = st.sidebar.text_input("Enter Password", type='password')
 
-    # if password == st.secrets[user_pw]:
-    #     st.write("ok")
-    if password == 'worldpeace':
+
+    if password == st.secrets["user_pw"]:
 
         st.markdown("### 1. Upload Files")
 
@@ -91,7 +90,7 @@ def main():
     elif password == "":
         st.write("Enter Password")
 
-    elif password == "benchen":
+    elif password == st.secrets["dev_pw"]:
 
         st.write("Entered Developer Mode... ")
 
