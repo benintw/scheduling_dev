@@ -15,8 +15,6 @@ import pandas as pd
 import xlsxwriter
 from myFunctions import *
 
-# user_pw = "worldpeace"
-# dev_pw = "benchen"
 
 
 def main():
@@ -25,8 +23,8 @@ def main():
     st.write("-"*100)
     password = st.sidebar.text_input("Enter Password", type='password')
 
-    if password == st.secrets[user_pw]:
-        st.write("ok")
+    # if password == st.secrets[user_pw]:
+    #     st.write("ok")
     if password == 'worldpeace':
 
         st.markdown("### 1. Upload Files")
