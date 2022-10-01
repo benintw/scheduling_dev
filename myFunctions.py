@@ -1,6 +1,7 @@
 '''
 Last modified: Tues Sep 20, 2022 @ 00:40
 Last modified: Mon. Sep 26, 2022 @ 22:05
+Last modified: Sat. Oct 02, 2022 @ 00:11
 
 '''
 
@@ -13,7 +14,7 @@ import xlsxwriter
 
 
 def get_different_teams_to_list(uploadedFiles:list) -> dict:
-    '''把桃園隊,執勤官, 其他國境隊各別歸到上述list'''
+    st.secrets["desc1"]
     taoyuan_teams_docx_list = []
     management_teams_excel_list = []
     other_teams_docx_list = []
